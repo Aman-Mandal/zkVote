@@ -44,8 +44,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className='bg-[#111111] min-h-screen font-Avenir text-white p-10'>
-      <div className='w-[95%] mx-auto h-full'>
+    <div className='bg-[#111111] h-[100vh] font-Avenir text-white p-10 box-border '>
+      <div className='w-[95%] mx-auto h-full overflow-y-scroll'>
         <PageTitle
           title={'DAOs'}
           subtext='List of all the listed onChain DAOs on this crazy platform.'
@@ -58,7 +58,7 @@ const Dashboard = () => {
           </button>
         </div>
 
-        <div className='flex flex-wrap gap-8 '>
+        <div className='flex flex-wrap gap-8 overflow-y-scroll'>
           {dummyDAOs.map((dao) => (
             <DAO
               key={dao.id}

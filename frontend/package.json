@@ -9,11 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "imagefrombuffer": "^1.0.12",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
-    "imagefrombuffer": "^1.0.12"
+    "react-metamask-avatar": "^1.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
