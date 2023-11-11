@@ -48,7 +48,7 @@ const DAO = () => {
   ];
 
   return (
-    <div className='bg-[#111111] min-h-screen font-Avenir text-white p-10 shadow-md shadow-[#3a3a3a]'>
+    <div className='bg-[#111111] min-h-screen font-Avenir text-white p-10 pt-20 shadow-md shadow-[#3a3a3a]'>
       <DAOInfo />
 
       <div className='mt-10'>

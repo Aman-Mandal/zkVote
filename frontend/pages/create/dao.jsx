@@ -1,4 +1,5 @@
 import CreateStep1 from '@/components/DAO/CreateStep1';
+import CreateStep2 from '@/components/DAO/CreateStep2';
 import VerticalStepper from '@/components/DAO/Stepper';
 import Stepper from '@/components/DAO/Stepper';
 import React, { useState } from 'react';
@@ -31,7 +32,7 @@ const CreateDao = () => {
       );
     } else if (page === 1) {
       return (
-        <CreateStep1
+        <CreateStep2
           formData={formData}
           setFormData={setFormData}
         />
@@ -65,7 +66,9 @@ const CreateDao = () => {
       <div className='flex  text-white'>
         <div className='flex-[0.35] flex flex-col px-20 py-14 border-r-[0.5px]  border-[#2E2E2E]'>
           <div className='mb-10'>
-            <p className='text-3xl font-semibold mb-1 text-[#f2f2f2]'>Create DAO</p>
+            <p className='text-3xl font-semibold mb-1 text-[#f2f2f2]'>
+              Create DAO
+            </p>
             <p className='text-sm text-[#707070]'>
               Setup your DAO in few simple steps.
             </p>
@@ -73,10 +76,6 @@ const CreateDao = () => {
           <VerticalStepper page={page} />
         </div>
         <form className=' w-[400px] flex-[0.5]  py-8 px-10  mb-10'>
-          {/* <p className='text-center font-medium text-2xl'>Create DAO here</p>
-          <p className='text-center text-xs text-gray-300 font-light'>
-            Create and submit your project for quadratic funding.
-          </p> */}
           {PageDisplay()}
           <div className='flex justify-between mt-8 items-center'>
             {page !== 0 ? (

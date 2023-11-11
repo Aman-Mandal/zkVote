@@ -1,6 +1,7 @@
 import DAO from '@/components/DAO/DAO';
 import PageTitle from '@/components/PageTitle/PageTitle';
 import SearchBar from '@/components/SearchBar/SearchBar';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 const Dashboard = () => {
@@ -43,8 +44,10 @@ const Dashboard = () => {
     },
   ];
 
+  const router = useRouter();
+
   return (
-    <div className='bg-[#111111] h-[100vh] font-Avenir text-white p-10 box-border '>
+    <div className='bg-[#111111] h-[100vh] font-Avenir text-white p-10 pt-20 box-border '>
       <div className='w-[95%] mx-auto h-full overflow-y-scroll'>
         <PageTitle
           title={'DAOs'}
@@ -53,7 +56,11 @@ const Dashboard = () => {
 
         <div className='flex justify-between items-center'>
           <SearchBar />
-          <button className='bg-[#f2f2f2] py-3 px-6 text-black font-semibold rounded-md hover:bg-white'>
+          <button
+            onClick={() => {
+              router.push('/create/dao');
+            }}
+            className='bg-[#f2f2f2] py-3 px-6 text-black font-semibold rounded-md hover:bg-white'>
             Create DAO +
           </button>
         </div>

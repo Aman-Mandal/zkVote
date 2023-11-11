@@ -26,7 +26,7 @@ const CreateStep1 = ({ formData, setFormData }) => {
       <div className='flex flex-col mt-3 mb-5'>
         <label className='text-sm  mb-1 text-gray-400'>Description *</label>
         <textarea
-          rows={10}
+          rows={6}
           className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
           //   onChange={(e) => {
           //     setFormData({
@@ -58,10 +58,8 @@ const CreateStep1 = ({ formData, setFormData }) => {
       </div> */}
 
       {/* Categories */}
-      {/* <div className='flex flex-col '>
-        <label className='text-sm text-gray-400 mb-1'>
-          Chooses Categories *
-        </label>
+      <div className='flex flex-col '>
+        <label className='text-sm text-gray-400 mb-1'>Choose Category *</label>
         <select
           //   onChange={(e) => {
           //     setFormData({
@@ -70,25 +68,22 @@ const CreateStep1 = ({ formData, setFormData }) => {
           //     });
           //   }}
           //   value={formData?.categories}
-          class='bg-[#232327] outline-none border border-gray-900 mb-4  py-3 px-2 text-gray-300 text-sm rounded-lg '>
+          class='bg-[#181818] outline-none border border-gray-900 mb-4  py-3 px-2 text-gray-300 text-sm rounded-lg '>
           <option
             unselectable='on'
             disabled>
             Select categories from here
           </option>
-          <option value={'AI'}>AI</option>
+          <option value={'Social'}>Social</option>
           <option value={'Defi'}>Defi</option>
-          <option value={'Tokens'}>Tokens</option>
-          <option value={'Crosschain'}>Crosschain</option>
-          <option value={'DAO'}>DAO</option>
+          <option value={'Protocol'}>Protocol</option>
           <option value={'Gaming'}>Gaming</option>
-          <option value={'Developer Tools'}>Developer Tools</option>
         </select>
-      </div> */}
+      </div>
 
       {/* Logo */}
       <>
-        <p className='text-sm  mb-1 text-gray-400 mt-3'>DAO logo *</p>
+        <p className='text-sm  mb-1 text-gray-400 mt-3'>Logo *</p>
         <div className='flex gap-12'>
           <div className='h-[90px] overflow-hidden'>
             <Image
