@@ -1,15 +1,8 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
-import {
-  BiLogoTwitter,
-  BiLogoTelegram,
-  BiLogoGithub,
-  BiLogoDiscord,
-  BiLogoLinkedinSquare,
-} from 'react-icons/bi';
+import { FaEthereum } from 'react-icons/fa';
 
 const CreateStep2 = ({ formData, setFormData }) => {
-  const [isExistingDAO, setIsExistingDAO] = useState(false);
-
   return (
     <div className='min-h-[70vh]'>
       <div className='flex flex-col mt-2 gap-4'>
@@ -20,21 +13,21 @@ const CreateStep2 = ({ formData, setFormData }) => {
           </p>
         </div>
 
-        {/* Twitter */}
         <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
           <div className='flex items-center gap-2 text-gray-400 w-[150px] text-sm py-2 border-r-[0.5px] border-gray-700'>
-            <BiLogoTwitter />
+            <FaEthereum />
             <p>Ethereum</p>
           </div>
           <input
+            placeholder='0x00...'
             className='bg-[#181818] py-1 px-4 w-full rounded-r-md placeholder:text-gray-500 text-gray-300 text-sm  outline-none '
-            // onChange={(e) => {
-            //   setFormData({
-            //     ...formData,
-            //     twitter: e.target.value,
-            //   });
-            // }}
-            // value={formData?.twitter}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                ethereumAddress: e.target.value,
+              });
+            }}
+            value={formData?.ethereumAddress}
             type='text'
             required
           />
@@ -42,71 +35,69 @@ const CreateStep2 = ({ formData, setFormData }) => {
 
         <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
           <div className='flex items-center gap-2 text-gray-400 w-[150px] text-sm py-2 border-r-[0.5px] border-gray-700'>
-            <BiLogoGithub />
+            <Image
+              src={'/assets/polygon.svg'}
+              height={15}
+              width={15}
+              alt='pol'
+            />
             <p>Polygon</p>
           </div>
           <input
+            placeholder='0x00...'
             className='bg-[#181818] py-1 px-4 w-full rounded-r-md placeholder:text-gray-500 text-gray-300 text-sm  outline-none '
-            // onChange={(e) => {
-            //   setFormData({
-            //     ...formData,
-            //     github: e.target.value,
-            //   });
-            // }}
-            // value={formData?.github}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                polygonAddress: e.target.value,
+              });
+            }}
+            value={formData?.polygonAddress}
             type='text'
             required
           />
         </div>
         <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
           <div className='flex items-center gap-2 text-gray-400 w-[150px] text-sm py-2 border-r-[0.5px] border-gray-700'>
-            <BiLogoTelegram />
+            <Image
+              src={'/assets/polygon.svg'}
+              height={15}
+              width={15}
+              alt='pol'
+            />
             <p>ZkEVM</p>
           </div>
           <input
+            placeholder='0x00...'
             className='bg-[#181818] py-1 px-4 w-full rounded-r-md placeholder:text-gray-500 text-gray-300 text-sm  outline-none '
-            // onChange={(e) => {
-            //   setFormData({
-            //     ...formData,
-            //     telegram: e.target.value,
-            //   });
-            // }}
-            // value={formData?.telegram}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                zkEVMAddress: e.target.value,
+              });
+            }}
+            value={formData?.zkEVMAddress}
             type='text'
             required
           />
         </div>
 
-        <div className='flex flex-col mt-6'>
+        <div className='flex flex-col mt-4'>
           <label className='text-sm  mb-1 text-gray-400'>Token Name *</label>
           <input
             placeholder='AAVE'
             className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
-            // onChange={(e) => {
-            //   setFormData({
-            //     ...formData,
-            //     liveLink: e.target.value,
-            //   });
-            // }}
-            // value={formData?.liveLink}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                tokenName: e.target.value,
+              });
+            }}
+            value={formData?.tokenName}
             type='text'
             required
           />
         </div>
-      </div>
-
-      <div className='flex gap-3 items-center mt-6'>
-        <input
-          onChange={(e) => {
-            setIsExistingDAO(e.target.checked);
-            console.log('xxx', e.target.checked);
-          }}
-          type={'checkbox'}
-          value={isExistingDAO}
-        />
-        <label className='text-sm text-gray-400'>
-          Already have an existing DAO?
-        </label>
       </div>
 
       <div className='flex flex-col mt-6'>
@@ -115,18 +106,39 @@ const CreateStep2 = ({ formData, setFormData }) => {
         </label>
         <input
           className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
-          // onChange={(e) => {
-          //   setFormData({
-          //     ...formData,
-          //     liveLink: e.target.value,
-          //   });
-          // }}
-          // value={formData?.liveLink}
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              daoAddress: e.target.value,
+            });
+          }}
+          value={formData?.daoAddress}
           type='text'
           required
         />
         <p className='text-xs  text-gray-600 '>
-          Enter governor (DAO) address on zkEVM chain.
+          Enter governor (DAO) address of zkEVM chain if you have an existing
+          DAO.
+        </p>
+      </div>
+
+      <div className='flex flex-col mt-6'>
+        <label className='text-sm  mb-1 text-gray-400'>Threshold *</label>
+        <input
+          placeholder='20%'
+          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              threshold: e.target.value,
+            });
+          }}
+          value={formData?.threshold}
+          type='number'
+          required
+        />
+        <p className='text-xs  text-gray-600 '>
+          Enter minimum percentage of votes (Yes/No) needed .
         </p>
       </div>
     </div>

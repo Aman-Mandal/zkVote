@@ -27,10 +27,10 @@ const DAO = ({ name, logo, walletAddress, members }) => {
 
       <button
         onClick={() => {
-          router.push(`/${walletAddress}/${name}`);
+          router.push('/dashboard/12');
         }}
         className='w-full text-center mt-5 font-medium  py-3  bg-[#2E2E2E] rounded-full text-gray-100 text-sm'>
-        Join DAO
+        View Details
       </button>
     </div>
   );

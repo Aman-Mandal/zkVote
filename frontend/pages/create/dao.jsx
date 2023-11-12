@@ -1,25 +1,28 @@
 import CreateStep1 from '@/components/DAO/CreateStep1';
 import CreateStep2 from '@/components/DAO/CreateStep2';
+import CreateStep3 from '@/components/DAO/CreateStep3';
 import VerticalStepper from '@/components/DAO/Stepper';
-import Stepper from '@/components/DAO/Stepper';
 import React, { useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const CreateDao = () => {
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
-    projectName: '',
-    tagline: '',
-    walletAddress: '',
-    categories: [],
-    logo: '',
-    liveLink: '',
-    twitter: '',
-    github: '',
-    telegram: '',
-    discord: '',
-    linkedin: '',
+    name: '',
     description: '',
+    category: '',
+    ethereumAddress: '',
+    polygonAddress: '',
+    zkEVMAddress: '',
+    tokenName: '',
+    daoAddress: '',
+    threshold: '',
+    twitter: '',
+    discord: '',
+    github: '',
+    linkedIn: '',
+    telegram: '',
+    logo: '',
   });
 
   const PageDisplay = () => {
@@ -39,7 +42,7 @@ const CreateDao = () => {
       );
     } else if (page === 2) {
       return (
-        <CreateStep1
+        <CreateStep3
           formData={formData}
           setFormData={setFormData}
         />
@@ -59,6 +62,7 @@ const CreateDao = () => {
 
   const submitProjectHandler = (e) => {
     e.preventDefault();
+    console.log('xxxSubmit', formData);
   };
 
   return (
