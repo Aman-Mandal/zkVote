@@ -1,15 +1,12 @@
-// SPDX-License-Identifier: UNLICENSED
-
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
 import "./polygonZKEVMContracts/interfaces/IBridgeMessageReceiver.sol";
 import "./polygonZKEVMContracts/interfaces/IPolygonZkEVMBridge.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/interfaces/IERC20.sol";
 
-/**
- * ZkEVMNFTBridge is an example contract to use the message layer of the PolygonZkEVMBridge to bridge NFTs
- */
-contract VoteReceiver is IBridgeMessageReceiver, Ownable {
+contract ProposalETH is IBridgeMessageReceiver, Ownable {
     // Global Exit Root address
     IPolygonZkEVMBridge public immutable polygonZkEVMBridge;
 
@@ -17,10 +14,20 @@ contract VoteReceiver is IBridgeMessageReceiver, Ownable {
     uint32 public immutable networkID;
 
     // Address in the other network that will send the message
-    address public pingSender;
+    address public voteOnZkEvmAddress;
 
     // Value sent from the other network
     uint256 public votes;
+    uint public id;
+
+    // mapping of proposal id to address of token used to calculate the vote power
+    mapping(uint => address) public tokenAddressForID;
+
+    enum Options {
+        For,
+        Against,
+        Abstain
+    }
 
     /**
      * @param _polygonZkEVMBridge Polygon zkevm bridge address
@@ -30,23 +37,19 @@ contract VoteReceiver is IBridgeMessageReceiver, Ownable {
         networkID = polygonZkEVMBridge.networkID();
     }
 
-    /**
-     * @dev Emitted when a message is received from another network
-     */
-    event PingReceived(uint256 pingValue);
-
-    /**
-     * @dev Emitted when change the sender
-     */
-    event SetSender(address newPingSender);
+    function registerProposal(address _token) external {
+        id++;
+        tokenAddressForID[id] = _token;
+    }
 
     /**
      * @notice Set the sender of the message
-     * @param newPingSender Address of the sender in the other network
+     * @param _voteOnZkEvmAddress Address of the sender in the other network
      */
-    function setSender(address newPingSender) external onlyOwner {
-        pingSender = newPingSender;
-        emit SetSender(newPingSender);
+    function setVoteOnZkEvmAddress(
+        address _voteOnZkEvmAddress
+    ) external onlyOwner {
+        voteOnZkEvmAddress = _voteOnZkEvmAddress;
     }
 
     /**
@@ -68,11 +71,19 @@ contract VoteReceiver is IBridgeMessageReceiver, Ownable {
 
         // Can only be called by the sender on the other network
         require(
-            pingSender == originAddress,
-            "PingReceiver::onMessageReceived: Not ping Sender"
+            voteOnZkEvmAddress == originAddress,
+            "PingReceiver::onMessageReceived: Not VoteOnZkEvm"
         );
 
         // Decode data
-        votes = abi.decode(data, (uint256));
+        (Options option, uint power, uint _id) = abi.decode(
+            data,
+            (Options, uint, uint)
+        );
+
+        uint ethPower = IERC20(tokenAddressForID[_id]).balanceOf(msg.sender);
+
+        // do the magic
+        // sum of ethPower and power was total vote power
     }
 }
