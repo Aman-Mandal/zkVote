@@ -1,72 +1,59 @@
-import DAO from '@/components/DAO/DAO';
-import PageTitle from '@/components/PageTitle/PageTitle';
-import SearchBar from '@/components/SearchBar/SearchBar';
-import React from 'react';
+import DAO from "@/components/DAO/DAO";
+import PageTitle from "@/components/PageTitle/PageTitle";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import { SERVER_URL } from "@/constants";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import React from "react";
 
 const Dashboard = () => {
-  const dummyDAOs = [
-    {
-      id: '1',
-      name: 'StationX',
-      logo: '/assets/pic.svg',
-      tagline: 'Hello world',
-      walletAddress: '0x51EEBc7765b246a4D16d02b28CEAC61299AB7d9d',
-      amountRaised: 50,
-      categories: ['AI', 'social'],
-    },
-    {
-      id: '2',
-      name: 'StationX',
-      logo: '/assets/pic.svg',
-      tagline: 'Hello world',
-      walletAddress: '0x51EEBc7765b246a4D16d02b28CEAC61299AB7d9d',
-      amountRaised: 50,
-      categories: ['AI', 'social'],
-    },
-    {
-      id: '3',
-      name: 'StationX',
-      logo: '/assets/pic.svg',
-      tagline: 'Hello world',
-      walletAddress: '0x51EEBc7765b246a4D16d02b28CEAC61299AB7d9d',
-      amountRaised: 50,
-      categories: ['AI', 'social'],
-    },
-    {
-      id: '4',
-      name: 'StationX',
-      logo: '/assets/pic.svg',
-      tagline: 'Hello world',
-      walletAddress: '0x51EEBc7765b246a4D16d02b28CEAC61299AB7d9d',
-      amountRaised: 50,
-      categories: ['AI', 'social'],
-    },
-  ];
+  const [daos, setDaos] = useState([]);
+  const router = useRouter();
+
+  const getDaos = async () => {
+    const response = await fetch(`${SERVER_URL}/daos`);
+
+    const data = await response.json();
+
+    console.log("data is", data);
+    setDaos(data.data);
+  };
+
+  useEffect(() => {
+    getDaos();
+  }, []);
 
   return (
-    <div className='bg-[#111111] h-[100vh] font-Avenir text-white p-10 box-border '>
-      <div className='w-[95%] mx-auto h-full overflow-y-scroll'>
+    <div className="bg-[#111111] h-[100vh] font-Avenir text-white p-10 pt-20 box-border ">
+      <div className="w-[95%] mx-auto h-full overflow-y-scroll">
         <PageTitle
-          title={'DAOs'}
-          subtext='List of all the listed onChain DAOs on this crazy platform.'
+          title={"DAOs"}
+          subtext="List of all the listed onChain DAOs on this crazy platform."
         />
 
-        <div className='flex justify-between items-center'>
+        <div className="flex justify-between items-center">
           <SearchBar />
-          <button className='bg-[#f2f2f2] py-3 px-6 text-black font-semibold rounded-md hover:bg-white'>
+          <button
+            onClick={() => {
+              router.push("/create/dao");
+            }}
+            className="bg-[#f2f2f2] py-3 px-6 text-black font-semibold rounded-md hover:bg-white"
+          >
             Create DAO +
           </button>
         </div>
 
-        <div className='flex flex-wrap gap-8 overflow-y-scroll'>
-          {dummyDAOs.map((dao) => (
-            <DAO
-              key={dao.id}
-              logo={dao.logo}
-              name={dao.name}
-              members={'406K'}
-            />
-          ))}
+        <div className="flex flex-wrap gap-8 overflow-y-scroll">
+          {daos.length > 0 &&
+            daos.map((dao) => (
+              <DAO
+                key={dao._id}
+                id={dao._id}
+                logo={"/assets/pic.svg"}
+                name={dao.name}
+                members={"406K"}
+              />
+            ))}
         </div>
       </div>
     </div>

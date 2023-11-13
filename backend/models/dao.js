@@ -10,13 +10,14 @@ const daoSchema = new Schema({
     type: String,
     required: true,
   },
+  category: {
+    title: String,
+  },
+  tokenName: {
+    title: String,
+  },
   daoContract: {
-    chain: {
-      type: String,
-    },
-    address: {
-      type: String,
-    },
+    type: String,
   },
   tokenAddresses: [
     {
@@ -28,6 +29,13 @@ const daoSchema = new Schema({
       },
     },
   ],
+  socials: {
+    twitter: String,
+    github: String,
+    telegram: String,
+    linkedin: String,
+    discord: String,
+  },
 });
 
 module.exports = mongoose.model("Dao", daoSchema);
