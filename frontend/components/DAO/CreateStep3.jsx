@@ -30,7 +30,6 @@ const CreateStep3 = ({ formData, setFormData }) => {
             }}
             value={formData?.twitter}
             type='text'
-            required
           />
         </div>
 
@@ -50,7 +49,6 @@ const CreateStep3 = ({ formData, setFormData }) => {
             }}
             value={formData?.github}
             type='text'
-            required
           />
         </div>
         <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
@@ -69,7 +67,6 @@ const CreateStep3 = ({ formData, setFormData }) => {
             }}
             value={formData?.telegram}
             type='text'
-            required
           />
         </div>
 
@@ -89,7 +86,6 @@ const CreateStep3 = ({ formData, setFormData }) => {
             }}
             value={formData?.linkedIn}
             type='text'
-            required
           />
         </div>
 
@@ -109,7 +105,6 @@ const CreateStep3 = ({ formData, setFormData }) => {
             }}
             value={formData?.discord}
             type='text'
-            required
           />
         </div>
       </div>
