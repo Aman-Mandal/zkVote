@@ -5,19 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
-const steps = [
-  {
-    label: 'Add basic details ',
-  },
-  {
-    label: 'Enter governor token addresses',
-  },
-  {
-    label: 'Fill social details',
-  },
-];
-
-export default function VerticalStepper({ page }) {
+export default function VerticalStepper({ page, steps }) {
   return (
     <Box sx={{ maxWidth: 600 }}>
       <Stepper
