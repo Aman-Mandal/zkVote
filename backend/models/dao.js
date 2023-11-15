@@ -29,6 +29,9 @@ const daoSchema = new Schema({
       },
     },
   ],
+  owner: {
+    type: String,
+  },
   socials: {
     twitter: String,
     github: String,
