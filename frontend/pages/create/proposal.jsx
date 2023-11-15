@@ -1,5 +1,5 @@
 import CreateStep2 from '@/components/Proposal/CreateStep2';
-import CreateStep3 from '@/components/DAO/CreateStep3';
+import CreateStep3 from '@/components/Proposal/CreateStep3';
 import VerticalStepper from '@/components/DAO/Stepper';
 import CreateStep1 from '@/components/Proposal/CreateStep1';
 import { PROPOSAL_STEPS } from '@/constants';
@@ -36,12 +36,7 @@ const CreateProposal = () => {
         />
       );
     } else if (page === 2) {
-      return (
-        <CreateStep3
-          formData={formData}
-          setFormData={setFormData}
-        />
-      );
+      return <CreateStep3 formData={formData} />;
     }
   };
 
@@ -53,7 +48,7 @@ const CreateProposal = () => {
     if (page > 0) setPage((currPage) => currPage - 1);
   };
 
-  const submitProjectHandler = async (e) => {
+  const submitProposalHandler = async (e) => {
     e.preventDefault();
     console.log('DONE!');
   };
@@ -76,7 +71,7 @@ const CreateProposal = () => {
           />
         </div>
         <form
-          onSubmit={submitProjectHandler}
+          onSubmit={submitProposalHandler}
           className=' w-[400px] flex-[0.5]  py-8 px-10  mb-10'>
           {PageDisplay()}
           <div className='flex justify-between mt-8 items-center'>

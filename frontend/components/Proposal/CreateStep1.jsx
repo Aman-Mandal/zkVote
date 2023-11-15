@@ -1,17 +1,17 @@
 const CreateStep1 = ({ formData, setFormData }) => {
   return (
-    <div>
-      <div className='flex flex-col mt-8'>
+    <div className='min-h-[70vh]'>
+      <div className='flex flex-col mt-8 '>
         <label className='text-sm  mb-1 text-gray-400'>Title *</label>
         <input
           className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
           onChange={(e) => {
             setFormData({
               ...formData,
-              name: e.target.value,
+              title: e.target.value,
             });
           }}
-          value={formData?.name}
+          value={formData?.title}
           type='text'
         />
       </div>

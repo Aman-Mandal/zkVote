@@ -2,7 +2,7 @@ import CreateStep1 from '@/components/DAO/CreateStep1';
 import CreateStep2 from '@/components/DAO/CreateStep2';
 import CreateStep3 from '@/components/DAO/CreateStep3';
 import VerticalStepper from '@/components/DAO/Stepper';
-import { SERVER_URL } from '@/constants';
+import { DAO_STEPS, SERVER_URL } from '@/constants';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import React, { useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -107,7 +107,10 @@ const CreateDao = () => {
               Setup your DAO in few simple steps.
             </p>
           </div>
-          <VerticalStepper page={page} />
+          <VerticalStepper
+            steps={DAO_STEPS}
+            page={page}
+          />
         </div>
         <form
           onSubmit={submitProjectHandler}
