@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0
 
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 interface IPolygonZkEVMBridge {
     /**
@@ -116,5 +116,5 @@ interface IPolygonZkEVMBridge {
 
     function deactivateEmergencyState() external;
 
-    function networkID() external returns(uint32);
+    function networkID() external returns (uint32);
 }
