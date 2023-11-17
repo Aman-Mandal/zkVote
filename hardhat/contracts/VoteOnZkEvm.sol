@@ -5,6 +5,7 @@ import "./polygonZKEVMContracts/interfaces/IBridgeMessageReceiver.sol";
 import "./polygonZKEVMContracts/interfaces/IPolygonZkEVMBridge.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
+import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 
 contract VoteOnZkEvm {
     // Global Exit Root address
@@ -13,8 +14,13 @@ contract VoteOnZkEvm {
     // Address of proposal in eth
     address public proposalAddress;
 
+    struct Proposal {
+        address token;
+        uint timepoint;
+    }
+
     // mapping of proposal id to address of token used to calculate the vote power
-    mapping(uint => address) public tokenAddressForID;
+    mapping(uint => Proposal) public proposalForID;
 
     enum Options {
         For,
@@ -35,8 +41,9 @@ contract VoteOnZkEvm {
     }
 
     function registerProposal(address _token, uint id) public {
-        require(tokenAddressForID[id] == address(0), "already registered");
-        tokenAddressForID[id] = _token;
+        require(proposalForID[id].token == address(0), "already registered");
+        proposalForID[id].token = _token;
+        proposalForID[id].timepoint = block.number;
     }
 
     /**
@@ -50,8 +57,12 @@ contract VoteOnZkEvm {
         uint _id,
         Options option
     ) public {
-        uint power = IERC20(tokenAddressForID[_id]).balanceOf(msg.sender);
-        bytes memory message = abi.encode(option, power, _id);
+        uint timepoint = proposalForID[_id].timepoint;
+        uint power = IVotes(proposalForID[_id].token).getPastVotes(
+            msg.sender,
+            timepoint
+        );
+        bytes memory message = abi.encode(option, power, _id, msg.sender);
 
         polygonZkEVMBridge.bridgeMessage(
             destinationNetwork,

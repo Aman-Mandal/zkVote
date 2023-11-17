@@ -5,6 +5,7 @@ import "./polygonZKEVMContracts/interfaces/IBridgeMessageReceiver.sol";
 import "./polygonZKEVMContracts/interfaces/IPolygonZkEVMBridge.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
+import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 
 contract ProposalETH is IBridgeMessageReceiver, Ownable {
     // Global Exit Root address
@@ -19,6 +20,9 @@ contract ProposalETH is IBridgeMessageReceiver, Ownable {
     // Value sent from the other network
     uint256 public votes;
     uint public id;
+    //@Testing
+    uint timepoint;
+    uint public overall;
 
     // mapping of proposal id to address of token used to calculate the vote power
     mapping(uint => address) public tokenAddressForID;
@@ -40,6 +44,7 @@ contract ProposalETH is IBridgeMessageReceiver, Ownable {
     function registerProposal(address _token) external {
         id++;
         tokenAddressForID[id] = _token;
+        timepoint = block.number;
     }
 
     /**
@@ -76,13 +81,17 @@ contract ProposalETH is IBridgeMessageReceiver, Ownable {
         );
 
         // Decode data
-        (Options option, uint power, uint _id) = abi.decode(
+        (Options option, uint power, uint _id, address _voter) = abi.decode(
             data,
-            (Options, uint, uint)
+            (Options, uint, uint, address)
         );
 
-        uint ethPower = IERC20(tokenAddressForID[_id]).balanceOf(msg.sender);
+        uint ethPower = IVotes(tokenAddressForID[_id]).getPastVotes(
+            _voter,
+            timepoint
+        );
 
+        overall = power + ethPower;
         // do the magic
         // sum of ethPower and power was total vote power
     }
