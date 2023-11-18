@@ -1,56 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
+import Image from 'next/image';
+import VotingInput from './VotingInput';
 
-const CreateStep3 = ({ formData }) => {
-  const [showMore, setShowMore] = useState(false);
+const CreateStep3 = ({ formData, setFormData }) => {
+  const addOptionHandler = (id, votingOption) => {
+    let updatedOptions = formData.votingOptions;
 
-  useEffect(() => {
-    console.log('here', formData);
-  }, [formData]);
+    updatedOptions[id] = {
+      votingOption,
+    };
+    setFormData({
+      ...formData,
+      votingOptions: updatedOptions,
+    });
+  };
 
+  const newOptionHandler = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      votingOptions: [
+        ...prevState.votingOptions,
+        { id: Date.now(), votingOption: null },
+      ],
+    }));
+  };
+
+  const removeOptionHandler = (optionId) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      votingOptions: prevState.votingOptions.filter(
+        (option) => option.id !== optionId
+      ),
+    }));
+  };
   return (
-    <div className=' font-Avenir'>
-      <p className='text-3xl font-semibold mb-3'>{formData.title}</p>
-
-      <p className='text-[#c2c2c2]'>
-        {showMore ? formData.description : formData.description.slice(0, 600)}
-      </p>
-
-      {formData?.description.length > 600 ? (
-        <div
-          className='cursor-pointer flex items-center gap-1 mt-2 text-gray-400'
-          onClick={() => {
-            setShowMore(!showMore);
-          }}>
-          <div>
-            {showMore ? (
-              <BiSolidUpArrow size={13} />
-            ) : (
-              <BiSolidDownArrow size={13} />
-            )}
-          </div>
-          {showMore ? 'Read Less' : 'Read More'}
+    <div className='min-h-[70vh]'>
+      <div className='flex flex-col mt-2 gap-4'>
+        <div>
+          <label className=' text-gray-400'>Voting Options *</label>
+          <p className='text-xs  text-gray-600 '>
+            Enter voting options for proposal.
+          </p>
         </div>
-      ) : null}
 
-      <p className='text-gray-300 mt-6'>
-        Proposal Ends on :{' '}
-        <span className='font-semibold text-white'>
-          {new Date(formData.date).toTimeString()}
-        </span>
-      </p>
-
-      <div className='border-[0.5px] border-[#2E2E2E]  rounded-md mt-6'>
-        <p className='py-5 border-b-[0.5px] border-[#2E2E2E] text-center text-lg font-semibold'>
-          Voting
-        </p>
-
-        <div className='flex flex-col gap-3 py-3'>
-          {formData.votingOptions.map((option) => (
-            <p className='py-4 text-center mx-2 rounded-full border-[0.5px] bg-[#171717]  border-[#2E2E2E] '>
-              {option.votingOption}
-            </p>
+        <div className='flex flex-col gap-3'>
+          {formData.votingOptions.map((option, index) => (
+            <VotingInput
+              index={index}
+              key={option.id}
+              id={option.id}
+              votingOption={option.votingOption}
+              addOption={addOptionHandler}
+              removeOption={removeOptionHandler}
+            />
           ))}
+        </div>
+
+        <button
+          type='button'
+          onClick={newOptionHandler}
+          className='bg-[#292929] hover:bg-[#333333] text-sm py-4 px-6 rounded-md outline-none'>
+          Add Option
+        </button>
+
+        <div className='flex flex-col mt-6'>
+          <label className='text-sm  mb-1 text-gray-400'>Deadline *</label>
+          <input
+            placeholder='20%'
+            className='bg-[#181818] py-3 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                date: e.target.value,
+              });
+            }}
+            value={formData?.date}
+            type='datetime-local'
+            required
+          />
+          <p className='text-xs  text-gray-600 '>
+            Enter minimum percentage of votes (Yes/No) needed .
+          </p>
         </div>
       </div>
     </div>

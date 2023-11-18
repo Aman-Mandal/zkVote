@@ -1,86 +1,115 @@
-import Image from 'next/image';
-import VotingInput from './VotingInput';
+import React, { useEffect, useState } from 'react';
+import ParameterInput from './ParameterInput';
 
 const CreateStep2 = ({ formData, setFormData }) => {
-  const addOptionHandler = (id, votingOption) => {
-    let updatedOptions = formData.votingOptions;
+  const [mutableFuncs, setMutableFuncs] = useState([]);
+  const [selectedFun, setSelectedFun] = useState(null);
 
-    updatedOptions[id] = {
-      votingOption,
-    };
-    setFormData({
-      ...formData,
-      votingOptions: updatedOptions,
-    });
+  useEffect(() => {
+    if (formData.contractAbi.length) {
+      const parsedData = JSON.parse(formData.contractAbi);
+      const funcs = parsedData.filter((fun) => {
+        return (
+          fun.stateMutability !== 'view' &&
+          fun.stateMutability !== 'pure' &&
+          fun.type === 'function'
+        );
+      });
+
+      setMutableFuncs(funcs);
+    }
+  }, [formData.contractAbi]);
+
+  const handleSelectChange = (event) => {
+    const selectedFunction = mutableFuncs[event.target.value];
+    setSelectedFun(selectedFunction);
   };
 
-  const newOptionHandler = () => {
-    setFormData((prevState) => ({
-      ...prevState,
-      votingOptions: [
-        ...prevState.votingOptions,
-        { id: Date.now(), votingOption: null },
-      ],
-    }));
-  };
-
-  const removeOptionHandler = (optionId) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      votingOptions: prevState.votingOptions.filter(
-        (option) => option.id !== optionId
-      ),
-    }));
-  };
   return (
     <div className='min-h-[70vh]'>
-      <div className='flex flex-col mt-2 gap-4'>
-        <div>
-          <label className=' text-gray-400'>Voting Options *</label>
-          <p className='text-xs  text-gray-600 '>
-            Enter voting options for proposal.
-          </p>
-        </div>
+      <div className='flex flex-col mt-8 '>
+        <label className='text-sm  mb-1 text-gray-400'>
+          Contract Address *
+        </label>
+        <input
+          placeholder='0x0000000000000000000000000000000000'
+          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 '
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              title: e.target.value,
+            });
+          }}
+          value={formData?.title}
+          type='text'
+        />
+      </div>
 
-        <div className='flex flex-col gap-3'>
-          {formData.votingOptions.map((option, index) => (
-            <VotingInput
-              index={index}
-              key={option.id}
-              id={option.id}
-              votingOption={option.votingOption}
-              addOption={addOptionHandler}
-              removeOption={removeOptionHandler}
-            />
+      <div className='flex flex-col mt-3 mb-5'>
+        <label className='text-sm  mb-1 text-gray-400'>Contract ABI *</label>
+        <textarea
+          rows={6}
+          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              contractAbi: e.target.value,
+            });
+          }}
+          value={formData?.contractAbi}
+          type='text'
+        />
+      </div>
+
+      <div className='flex flex-col mt-8 '>
+        <label className='text-sm  mb-1 text-gray-400'>Target Address *</label>
+        <input
+          placeholder='0x0000000000000000000000000000000000'
+          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 '
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              targetAddress: e.target.value,
+            });
+          }}
+          value={formData?.targetAddress}
+          type='text'
+        />
+      </div>
+
+      <div className='flex flex-col mt-3 mb-5'>
+        <label className='text-sm  mb-1 text-gray-400'>Select Function *</label>
+        <select
+          onChange={handleSelectChange}
+          class='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md  text-[#444444]  outline-none mb-2'>
+          <option selected>Select function here</option>
+          {mutableFuncs.map((fun, index) => (
+            <option
+              key={index}
+              value={index}>
+              {fun.name}
+            </option>
           ))}
-        </div>
+        </select>
 
-        <button
-          type='button'
-          onClick={newOptionHandler}
-          className='bg-[#292929] hover:bg-[#333333] text-sm py-4 px-6 rounded-md outline-none'>
-          Add Option
-        </button>
+        {selectedFun?.inputs.length ? (
+          <>
+            <label className='text-sm text-gray-400 mb-1 mt-3'>
+              Input Parameters
+            </label>
 
-        <div className='flex flex-col mt-6'>
-          <label className='text-sm  mb-1 text-gray-400'>Deadline *</label>
-          <input
-            placeholder='20%'
-            className='bg-[#181818] py-3 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                date: e.target.value,
-              });
-            }}
-            value={formData?.date}
-            type='datetime-local'
-            required
-          />
-          <p className='text-xs  text-gray-600 '>
-            Enter minimum percentage of votes (Yes/No) needed .
-          </p>
-        </div>
+            {selectedFun.inputs?.map((input, index) => (
+              <div className='flex mb-3 items-center'>
+                <ParameterInput
+                  setFormData={setFormData}
+                  formData={formData}
+                  input={input}
+                  index={index}
+                />
+              </div>
+            ))}
+          </>
+        ) : null}
       </div>
     </div>
   );

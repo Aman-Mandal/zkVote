@@ -17,6 +17,9 @@ export const PROPOSAL_STEPS = [
     label: 'Add basic details ',
   },
   {
+    label: 'Select executable values',
+  },
+  {
     label: 'Enter Voting Options',
   },
   {

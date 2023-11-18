@@ -7,6 +7,7 @@ import { useWeb3Modal } from '@web3modal/wagmi/react';
 import React, { useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useAccount } from 'wagmi';
+import CreateStep4 from '@/components/Proposal/CreateStep4';
 
 const CreateProposal = () => {
   const [page, setPage] = useState(0);
@@ -15,6 +16,10 @@ const CreateProposal = () => {
     description: '',
     date: '',
     votingOptions: [{ votingOption: 'YES' }, { votingOption: 'NO' }],
+    contractAddress: '',
+    contractAbi: [],
+    inputParams: [],
+    targetAddress: '',
   });
 
   const { open } = useWeb3Modal();
@@ -36,7 +41,14 @@ const CreateProposal = () => {
         />
       );
     } else if (page === 2) {
-      return <CreateStep3 formData={formData} />;
+      return (
+        <CreateStep3
+          formData={formData}
+          setFormData={setFormData}
+        />
+      );
+    } else if (page === 3) {
+      return <CreateStep4 formData={formData} />;
     }
   };
 
@@ -56,19 +68,21 @@ const CreateProposal = () => {
   return (
     <div className='min-h-screen bg-[#111111] pt-20  font-Avenir'>
       <div className='flex  text-white'>
-        <div className='flex-[0.35] flex flex-col px-20 py-14 border-r-[0.5px]  border-[#2E2E2E]'>
-          <div className='mb-10'>
-            <p className='text-3xl font-semibold mb-1 text-[#f2f2f2]'>
-              Create Proposals (ZkEVM)
-            </p>
-            <p className='text-sm text-[#707070]'>
-              Create and raise an onchain proposal in few simple steps.
-            </p>
+        <div className='flex-[0.35] flex flex-col px-20 py-14 border-r-[0.5px]  border-[#2E2E2E]  '>
+          <div className='sticky top-[140px]'>
+            <div className='mb-10'>
+              <p className='text-3xl font-semibold mb-1 text-[#f2f2f2]'>
+                Create Proposals (ZkEVM)
+              </p>
+              <p className='text-sm text-[#707070]'>
+                Create and raise an onchain proposal in few simple steps.
+              </p>
+            </div>
+            <VerticalStepper
+              steps={PROPOSAL_STEPS}
+              page={page}
+            />
           </div>
-          <VerticalStepper
-            steps={PROPOSAL_STEPS}
-            page={page}
-          />
         </div>
         <form
           onSubmit={submitProposalHandler}
@@ -87,7 +101,7 @@ const CreateProposal = () => {
               <p className='text-[#181818]'>.</p>
             )}
 
-            {page === 2 ? (
+            {page === 3 ? (
               <div>
                 {isConnected ? (
                   <button

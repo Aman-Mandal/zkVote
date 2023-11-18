@@ -13,7 +13,6 @@ const VotingInput = ({ id, addOption, votingOption, removeOption, index }) => {
     updateInformation(e.target.value);
   };
 
-  console.log('xxx', index);
 
   return (
     <div className='flex items-center bg-[#181818] py-2 rounded-md px-3'>
