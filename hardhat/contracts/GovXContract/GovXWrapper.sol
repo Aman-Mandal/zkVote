@@ -17,29 +17,34 @@ contract MyGovernor is
         uint weight;
     }
 
+    uint public immutable VotingPeriod;
+
     mapping(uint => Votes[]) public votes;
 
     constructor(
         ERC20VotesComp _token,
-        ICompoundTimelock _timelock
+        ICompoundTimelock _timelock,
+        uint _votingPeriod
     )
         Governor("MyGovernor")
         GovernorVotesComp(_token)
         GovernorTimelockCompound(_timelock)
-    {}
+    {
+        VotingPeriod = _votingPeriod;
+    }
 
     function votingDelay() public pure override returns (uint256) {
         return 1; // 1 block
     }
 
-    function votingPeriod() public pure override returns (uint256) {
-        return 2; // 1 week
+    function votingPeriod() public view override returns (uint256) {
+        return VotingPeriod; // 1 week
     }
 
     function quorum(
         uint256 blockNumber
     ) public pure override returns (uint256) {
-        return 3;
+        return 2;
     }
 
     function proposalThreshold() public pure override returns (uint256) {
