@@ -53,6 +53,8 @@ abstract contract Governor is
         bool canceled;
     }
 
+    ProposalCore[] public allProposals;
+
     string private _name;
 
     mapping(uint256 => ProposalCore) private _proposals;
@@ -268,10 +270,10 @@ abstract contract Governor is
         bytes[] memory calldatas,
         string memory description
     ) public virtual override returns (uint256) {
-        require(
-            getVotes(_msgSender(), block.number - 1) >= proposalThreshold(),
-            "Governor: proposer votes below proposal threshold"
-        );
+        // require(
+        //     getVotes(_msgSender(), block.number - 1) >= proposalThreshold(),
+        //     "Governor: proposer votes below proposal threshold"
+        // );
 
         uint256 proposalId = hashProposal(
             targets,
@@ -301,6 +303,8 @@ abstract contract Governor is
 
         proposal.voteStart.setDeadline(snapshot);
         proposal.voteEnd.setDeadline(deadline);
+
+        allProposals.push(proposal);
 
         emit ProposalCreated(
             proposalId,
@@ -366,6 +370,10 @@ abstract contract Governor is
             }(calldatas[i]);
             Address.verifyCallResult(success, returndata, errorMessage);
         }
+    }
+
+    function showAllProposals() external view returns (ProposalCore[] memory) {
+        return allProposals;
     }
 
     /**

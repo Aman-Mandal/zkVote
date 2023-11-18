@@ -12,6 +12,13 @@ contract MyGovernor is
     GovernorVotesComp,
     GovernorTimelockCompound
 {
+    struct Votes {
+        address voter;
+        uint weight;
+    }
+
+    mapping(uint => Votes[]) public votes;
+
     constructor(
         ERC20VotesComp _token,
         ICompoundTimelock _timelock
@@ -47,7 +54,13 @@ contract MyGovernor is
         uint power,
         address _voter
     ) external returns (uint) {
-        return super.castVote(proposalId, support, power, _voter);
+        uint vote = super.castVote(proposalId, support, power, _voter);
+
+        Votes memory userVote;
+        userVote.voter = _voter;
+        userVote.weight = power;
+
+        votes[proposalId].push(userVote);
     }
 
     function state(
@@ -82,6 +95,12 @@ contract MyGovernor is
         bytes32 descriptionHash
     ) internal override(Governor, GovernorTimelockCompound) {
         super._execute(proposalId, targets, values, calldatas, descriptionHash);
+    }
+
+    function getVotesOnProposal(
+        uint _proposalId
+    ) public view returns (Votes[] memory) {
+        return votes[_proposalId];
     }
 
     function _cancel(
