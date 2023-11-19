@@ -16,8 +16,6 @@ exports.createDao = async (req, res, next) => {
 
 exports.getDao = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
     const daoInfo = await Dao.find({});
 
     return res

@@ -29,6 +29,12 @@ const daoSchema = new Schema({
       },
     },
   ],
+  proposals: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Proposal",
+    },
+  ],
   owner: {
     type: String,
   },
