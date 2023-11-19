@@ -1,12 +1,12 @@
 import React from 'react';
-import { MetaMaskAvatar } from 'react-metamask-avatar';
+// import { MetaMaskAvatar } from 'react-metamask-avatar';
 
 const ProposalCard = ({ address, status, title, description }) => {
   return (
     <div className='w-full p-6 rounded-xl bg-[#181818] font-Avenir cursor-pointer hover:bg-[#222222]'>
       <div className='flex justify-between items-center '>
         <div className='flex gap-3 justify-center mb-4'>
-          <MetaMaskAvatar address={address} />
+          {/* <MetaMaskAvatar address={address} /> */}
           <p className=' text-red-200'>
             {address.slice(0, 6)}...{address.slice(-5)}
           </p>
