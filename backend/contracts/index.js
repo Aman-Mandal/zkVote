@@ -92,3 +92,5 @@ async function claim() {
     ) => {}
   );
 }
+
+module.exports = claim;
