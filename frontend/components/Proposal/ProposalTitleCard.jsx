@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import VotingModal from './VotingModal';
 
 const ProposalTitleCard = ({ title }) => {
-  const [showVoteModal, setShowVoteModal] = useState(true);
+  const [showVoteModal, setShowVoteModal] = useState(false);
 
   const router = useRouter();
 
