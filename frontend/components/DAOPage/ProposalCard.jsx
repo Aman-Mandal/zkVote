@@ -1,9 +1,18 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 // import { MetaMaskAvatar } from 'react-metamask-avatar';
 
 const ProposalCard = ({ address, status, title, description }) => {
+  const router = useRouter();
+
+  const { dao } = router.query;
+
   return (
-    <div className='w-full p-6 rounded-xl bg-[#181818] font-Avenir cursor-pointer hover:bg-[#222222]'>
+    <div
+      onClick={() => {
+        router.push(`/dashboard/${dao}/proposal/123`);
+      }}
+      className='w-full p-6 rounded-xl bg-[#181818] font-Avenir cursor-pointer hover:bg-[#222222]'>
       <div className='flex justify-between items-center '>
         <div className='flex gap-3 justify-center mb-4'>
           {/* <MetaMaskAvatar address={address} /> */}
