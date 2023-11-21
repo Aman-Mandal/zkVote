@@ -5,13 +5,22 @@ import "../openzeppelin/contracts/governance/Governor.sol";
 import "../openzeppelin/contracts/governance/compatibility/GovernorCompatibilityBravo.sol";
 import "../openzeppelin/contracts/governance/extensions/GovernorVotesComp.sol";
 import "../openzeppelin/contracts/governance/extensions/GovernorTimelockCompound.sol";
+import "../polygonZKEVMContracts/interfaces/IBridgeMessageReceiver.sol";
+import "../polygonZKEVMContracts/interfaces/IPolygonZkEVMBridge.sol";
+import "../openzeppelin/contracts/access/Ownable.sol";
 
 contract MyGovernor is
     Governor,
     GovernorCompatibilityBravo,
     GovernorVotesComp,
-    GovernorTimelockCompound
+    GovernorTimelockCompound,
+    IBridgeMessageReceiver,
+    Ownable
 {
+    IPolygonZkEVMBridge public immutable polygonZkEVMBridge;
+    uint32 public immutable networkID;
+    address public voteOnZkEvmAddress;
+
     struct Votes {
         address voter;
         uint weight;
@@ -24,13 +33,16 @@ contract MyGovernor is
     constructor(
         ERC20VotesComp _token,
         ICompoundTimelock _timelock,
-        uint _votingPeriod
+        uint _votingPeriod,
+        IPolygonZkEVMBridge _polygonZkEVMBridge
     )
         Governor("MyGovernor")
         GovernorVotesComp(_token)
         GovernorTimelockCompound(_timelock)
     {
         VotingPeriod = _votingPeriod;
+        polygonZkEVMBridge = _polygonZkEVMBridge;
+        networkID = polygonZkEVMBridge.networkID();
     }
 
     function votingDelay() public pure override returns (uint256) {
@@ -51,14 +63,24 @@ contract MyGovernor is
         return 2;
     }
 
+    /**
+     * @notice Set the sender of the message
+     * @param _voteOnZkEvmAddress Address of the sender in the other network
+     */
+    function setVoteOnZkEvmAddress(
+        address _voteOnZkEvmAddress
+    ) external onlyOwner {
+        voteOnZkEvmAddress = _voteOnZkEvmAddress;
+    }
+
     // The following functions are overrides required by Solidity.
 
-    function vote(
+    function _vote(
         uint proposalId,
         uint8 support,
         uint power,
         address _voter
-    ) external returns (uint) {
+    ) internal returns (uint) {
         uint vote = super.castVote(proposalId, support, power, _voter);
 
         Votes memory userVote;
@@ -90,6 +112,38 @@ contract MyGovernor is
         returns (uint256)
     {
         return super.propose(targets, values, calldatas, description);
+    }
+
+    /**
+     * @notice Verify merkle proof and withdraw tokens/ether
+     * @param originAddress Origin address that the message was sended
+     * @param originNetwork Origin network that the message was sended ( not usefull for this contract)
+     * @param data Abi encoded metadata
+     */
+    function onMessageReceived(
+        address originAddress,
+        uint32 originNetwork,
+        bytes memory data
+    ) external payable override {
+        // Can only be called by the bridge
+        require(
+            msg.sender == address(polygonZkEVMBridge),
+            "PingReceiver::onMessageReceived: Not PolygonZkEVMBridge"
+        );
+
+        // Can only be called by the sender on the other network
+        require(
+            voteOnZkEvmAddress == originAddress,
+            "PingReceiver::onMessageReceived: Not VoteOnZkEvm"
+        );
+
+        // Decode data
+        (uint8 support, uint power, uint proposalId, address _voter) = abi
+            .decode(data, (uint8, uint, uint, address));
+
+        uint ethPower = getVotes(_voter, proposalSnapshot(proposalId));
+
+        _vote(proposalId, support, power + ethPower, _voter);
     }
 
     function _execute(
