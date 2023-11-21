@@ -1,5 +1,6 @@
 import ProposalDescription from '@/components/Proposal/ProposalDescription';
 import ProposalTitleCard from '@/components/Proposal/ProposalTitleCard';
+import ProposalVotes from '@/components/Proposal/ProposalVotes';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -10,8 +11,9 @@ const Proposal = () => {
         title={'Empowering Early Contributors: The community Arbiter Proposal'}
       />
 
-      <div className='flex mt-10'>
+      <div className='flex mt-10 gap-10'>
         <ProposalDescription />
+        <ProposalVotes />
       </div>
     </div>
   );
