@@ -91,7 +91,7 @@ const DAO = () => {
             <SearchBar />
             <button
               onClick={() => {
-                router.push('/create/proposal');
+                router.push(`/dashboard/${dao}/create/proposal`);
               }}
               className='bg-[#f2f2f2] py-3 px-6 text-black font-semibold rounded-md hover:bg-white'>
               Create Proposal
