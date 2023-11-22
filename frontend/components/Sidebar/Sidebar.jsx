@@ -11,7 +11,7 @@ const Sidebar = () => {
         onClick={() => {
           router.push('/dashboard');
         }}>
-        GX.
+        ZV
       </p>
       <div className='flex flex-col gap-5 mt-20 text-xl'>
         <div></div>
