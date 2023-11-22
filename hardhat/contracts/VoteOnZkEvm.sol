@@ -21,12 +21,7 @@ contract VoteOnZkEvm {
 
     // mapping of proposal id to address of token used to calculate the vote power
     mapping(uint => Proposal) public proposalForID;
-
-    enum Options {
-        For,
-        Against,
-        Abstain
-    }
+    mapping(address => bool) public voted;
 
     /**
      * @param _polygonZkEVMBridge Polygon zkevm bridge address
@@ -55,14 +50,15 @@ contract VoteOnZkEvm {
         uint32 destinationNetwork,
         bool forceUpdateGlobalExitRoot,
         uint _id,
-        Options option
+        uint8 support
     ) public {
+        require(!voted[msg.sender], "Already voted");
         uint timepoint = proposalForID[_id].timepoint;
         uint power = IVotes(proposalForID[_id].token).getPastVotes(
             msg.sender,
             timepoint
         );
-        bytes memory message = abi.encode(option, power, _id, msg.sender);
+        bytes memory message = abi.encode(support, power, _id, msg.sender);
 
         polygonZkEVMBridge.bridgeMessage(
             destinationNetwork,
@@ -70,5 +66,6 @@ contract VoteOnZkEvm {
             forceUpdateGlobalExitRoot,
             message
         );
+        voted[msg.sender] = true;
     }
 }
