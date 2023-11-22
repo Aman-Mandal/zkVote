@@ -935,6 +935,11 @@
   resolved "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-4.8.2.tgz"
   integrity sha512-kEUOgPQszC0fSYWpbh2kT94ltOJwj1qfT2DWo+zVttmGmf97JZ99LspePNaeeaLhCImaHVeBbjaQFZQn7+Zc5g==
 
+"@openzeppelin/contracts@^4.8.2":
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.9.3.tgz#00d7a8cf35a475b160b3f0293a6403c511099364"
+  integrity sha512-He3LieZ1pP2TNt5JbkPA4PNT9WC3gOTOlDcFGJW4Le4QKqwmiNJCRt44APfxMxvq7OugU/cqYuPcSBzOw38DAg==
+
 "@openzeppelin/hardhat-upgrades@1.22.1":
   version "1.22.1"
   resolved "https://registry.yarnpkg.com/@openzeppelin/hardhat-upgrades/-/hardhat-upgrades-1.22.1.tgz#93e2b3f870c57b00a1ae8a330a2cdd9c2d634eb8"
@@ -974,6 +979,14 @@
     minimist "^1.2.7"
     proper-lockfile "^4.1.1"
     solidity-ast "^0.4.51"
+
+"@phala/solidity@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@phala/solidity/-/solidity-0.0.3.tgz#9aebf435cacb1d26ad73b96eb785cc7cff2e7b31"
+  integrity sha512-i017Ye2DJ+m/hxrI/rTbEBELSTinveS7hr6BQQUJIKk0snvKly3JzmjnpmKXirAD51A++theE+DQLAwZ3bfmkw==
+  dependencies:
+    "@openzeppelin/contracts" "^4.8.2"
+    dotenv "^16.0.3"
 
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
@@ -3561,6 +3574,11 @@ dot-case@^2.1.0:
   integrity sha512-HnM6ZlFqcajLsyudHq7LeeLDr2rFAVYtDv/hV5qchQEidSck8j9OPUsXY9KwJv/lHMtYlX4DjRQqwFYa+0r8Ug==
   dependencies:
     no-case "^2.2.0"
+
+dotenv@^16.0.3:
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
+  integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
 
 dotenv@^8.6.0:
   version "8.6.0"
