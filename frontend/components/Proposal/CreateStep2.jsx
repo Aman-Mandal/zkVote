@@ -91,7 +91,7 @@ const CreateStep2 = ({ formData, setFormData }) => {
         >
           <option selected>Select function here</option>
           {mutableFuncs.map((fun, index) => (
-            <option key={index} value={fun.name}>
+            <option key={index} value={index}>
               {fun.name}
             </option>
           ))}

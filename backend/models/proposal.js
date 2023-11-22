@@ -6,6 +6,8 @@ const proposalSchema = new Schema({
   description: String,
   proposedBy: String,
   proposalId: String,
+  status: String,
+  description: String,
 });
 
 module.exports = mongoose.model("Proposal", proposalSchema);

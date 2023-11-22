@@ -26,7 +26,7 @@ exports.getSpecificProposal = async (req, res, next) => {
   try {
     const { proposalId } = req.params;
 
-    const proposal = await Proposal.findOne({ proposalId });
+    const proposal = await Proposal.findOne({ _id: proposalId });
 
     return res.status(200).json({ proposal });
   } catch (error) {

@@ -104,11 +104,12 @@ const DAO = () => {
           {daoInfo?.proposals.length > 0 &&
             daoInfo.proposals.map((proposal) => (
               <ProposalCard
-                address={proposal.address}
+                id={proposal._id}
+                address={proposal.proposalId}
                 description={proposal.description}
                 status={proposal.status}
                 title={proposal.title}
-                key={proposal.id}
+                key={proposal._id}
               />
             ))}
         </div>
