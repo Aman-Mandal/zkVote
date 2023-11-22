@@ -23,9 +23,9 @@ const VotingModal = ({ onClose, proposalId, proposalName }) => {
       signer
     );
     if (voteYes === true && voteNo === false) {
-      await contract.vote(1, true, proposalId, 0);
+      await contract.vote(0, true, proposalId, 0);
     } else if (voteYes === false && voteNo === true) {
-      await contract.vote(1, true, proposalId, 1);
+      await contract.vote(0, true, proposalId, 1);
     }
   };
 

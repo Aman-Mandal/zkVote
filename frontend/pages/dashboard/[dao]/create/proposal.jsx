@@ -1,3 +1,5 @@
+"use client";
+
 import CreateStep2 from "@/components/Proposal/CreateStep2";
 import CreateStep3 from "@/components/Proposal/CreateStep3";
 import VerticalStepper from "@/components/DAO/Stepper";
@@ -47,7 +49,10 @@ const CreateProposal = () => {
     getData();
   }, []);
 
-  const createProposal = async () => {
+  const createProposal = async (e) => {
+    e.preventDefault();
+
+    console.log("xxx", formData);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     const signer = provider.getSigner();
@@ -68,25 +73,27 @@ const CreateProposal = () => {
       formData.inputParams
     );
 
-    const address = await contract.proposalThreshold();
+    // const address = await contract.proposalThreshold();
 
-    console.log({
-      address,
-      data: ethers.utils.toUtf8Bytes(calldata),
-      tp: typeof ethers.utils.toUtf8Bytes(calldata),
-    });
+    // console.log({
+    //   address,
+    //   data: ethers.utils.toUtf8Bytes(calldata),
+    //   tp: typeof ethers.utils.toUtf8Bytes(calldata),
+    // });
+    console.log("[[[", process.env.NEXT_PRIVATE_KEY);
 
     const tx = await contract.propose(
       [formData.targetAddress],
       [0],
       [calldata],
-      formData.description
+      formData.description,
+      { gasLimit: 23000999 }
     );
 
     const res = await tx.wait();
 
     const provider2 = new ethers.providers.JsonRpcProvider(
-      "https://rpc.public.zkevm-test.net"
+      "https://polygonzkevm-testnet.g.alchemy.com/v2/HdlDu7E4M24le4vwHbSnb998HL6kFPEp"
     );
 
     const wallet = new ethers.Wallet(process.env.NEXT_PRIVATE_KEY, provider2);
@@ -99,9 +106,9 @@ const CreateProposal = () => {
 
     console.log({ res, tx });
 
-    const receipt = await ethersProvider.getTransactionReceipt(
-      res.logs[0].transactionHash
-    );
+    const receipt = await provider.getTransactionReceipt(res.transactionHash);
+
+    console.log({ receipt });
 
     const decodedData = ethers.utils.defaultAbiCoder.decode(
       [
@@ -121,7 +128,7 @@ const CreateProposal = () => {
     console.log("proposalId", decodedData[0].toString());
 
     await contract2.registerProposal(
-      daoInfo[1].address,
+      daoInfo.tokenAddresses[1].address,
       decodedData[0].toString()
     );
 
@@ -160,11 +167,6 @@ const CreateProposal = () => {
     if (page > 0) setPage((currPage) => currPage - 1);
   };
 
-  const submitProposalHandler = async (e) => {
-    e.preventDefault();
-    console.log("DONE!");
-  };
-
   return (
     <div className="min-h-screen bg-[#111111] pt-20  font-Avenir">
       <div className="flex  text-white">
@@ -182,7 +184,7 @@ const CreateProposal = () => {
           </div>
         </div>
         <form
-          onSubmit={submitProposalHandler}
+          onSubmit={createProposal}
           className=" w-[400px] flex-[0.5]  py-8 px-10  mb-10"
         >
           {PageDisplay()}
@@ -206,7 +208,6 @@ const CreateProposal = () => {
                   <button
                     type="submit"
                     className="bg-[#292929] hover:bg-[#333333] text-sm py-2 px-6 rounded-md"
-                    onClick={createProposal}
                   >
                     Submit
                   </button>

@@ -59,14 +59,18 @@ async function main() {
 
   // Deploy Ping receiver on zkevm testnet /zkevm mainnet
   const pingReceiverFactory = await ether.getContractFactory(
-    "ProposalETH",
+    "MyGovernor",
     deployer
   );
   const pingReceiverContract = await pingReceiverFactory.deploy(
+    "0x602374c03e7816DCcdc1CAc53AAA27a9774f9d84",
+    "0x602374c03e7816DCcdc1CAc53AAA27a9774f9d84",
+    1000000000,
     zkEVMBridgeContractAddress
   );
+  await pingReceiverContract.deployed();
 
-  console.log(pingReceiverContract);
+  console.log(pingReceiverContract.address);
 
   // Deploy Ping sender on goerli / zkevm mainnet
   const pingSenderFactory = await ether.getContractFactory(
@@ -75,26 +79,28 @@ async function main() {
   );
   const pingSenderContract = await pingSenderFactory.deploy(
     zkEVMBridgeContractAddress,
-    pingReceiverContract.target
+    pingReceiverContract.address
   );
 
-  console.log("Ping sender deployed on: ", pingSenderContract.target);
+  await pingSenderContract.deployed();
+
+  console.log("Ping sender deployed on: ", pingSenderContract.address);
 
   // Set address on both networks
   await pingSenderContract.registerProposal(
     "0x8BE789B765926CAd6816EF7B80f5780ac49af9A6",
     1
   );
-  await pingReceiverContract.registerProposal(
-    "0x602374c03e7816DCcdc1CAc53AAA27a9774f9d84"
-  );
+  // await pingReceiverContract.registerProposal(
+  //   "0x602374c03e7816DCcdc1CAc53AAA27a9774f9d84"
+  // );
 
-  await pingReceiverContract.setVoteOnZkEvmAddress(pingSenderContract.target);
+  await pingReceiverContract.setVoteOnZkEvmAddress(pingSenderContract.address);
 
   // Write output
   const outputJson = {
-    pingSenderContract: pingSenderContract.target,
-    pingReceiverContract: pingReceiverContract.target,
+    pingSenderContract: pingSenderContract.address,
+    pingReceiverContract: pingReceiverContract.address,
   };
   const pathOutputJson = path.join(__dirname, "./output.json");
   fs.writeFileSync(pathOutputJson, JSON.stringify(outputJson, null, 1));

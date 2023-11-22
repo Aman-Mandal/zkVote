@@ -27,30 +27,16 @@ const CreateStep2 = ({ formData, setFormData }) => {
         functionName: event.target.value,
       };
     });
-    const selectedFunction = mutableFuncs[event.target.value];
-    setSelectedFun(selectedFunction);
+
+    const selectedFunction = mutableFuncs.filter(
+      (fun) => fun.name === event.target.value
+    );
+
+    setSelectedFun(...selectedFunction);
   };
 
   return (
     <div className="min-h-[70vh]">
-      <div className="flex flex-col mt-8 ">
-        <label className="text-sm  mb-1 text-gray-400">
-          Contract Address *
-        </label>
-        <input
-          placeholder="0x0000000000000000000000000000000000"
-          className="bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 "
-          onChange={(e) => {
-            setFormData({
-              ...formData,
-              title: e.target.value,
-            });
-          }}
-          value={formData?.title}
-          type="text"
-        />
-      </div>
-
       <div className="flex flex-col mt-3 mb-5">
         <label className="text-sm  mb-1 text-gray-400">Contract ABI *</label>
         <textarea
@@ -91,7 +77,7 @@ const CreateStep2 = ({ formData, setFormData }) => {
         >
           <option selected>Select function here</option>
           {mutableFuncs.map((fun, index) => (
-            <option key={index} value={index}>
+            <option key={index} value={fun.name}>
               {fun.name}
             </option>
           ))}
