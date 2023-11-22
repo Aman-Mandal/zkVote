@@ -27,7 +27,12 @@ const Proposal = () => {
   }, []);
   return (
     <div className="bg-[#111111] min-h-screen font-Avenir text-white p-10 pt-20 shadow-md shadow-[#3a3a3a]">
-      {proposalInfo && <ProposalTitleCard title={proposalInfo.name} />}
+      {proposalInfo && (
+        <ProposalTitleCard
+          title={proposalInfo.name}
+          prId={proposalInfo.proposalId}
+        />
+      )}
 
       <div className="flex mt-10 gap-10">
         {proposalInfo && (

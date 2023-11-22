@@ -22,6 +22,8 @@ const VotingModal = ({ onClose, proposalId, proposalName }) => {
       VoteOnZkEvmABI,
       signer
     );
+
+    console.log({ contract });
     if (voteYes === true && voteNo === false) {
       await contract.vote(0, true, proposalId, 0);
     } else if (voteYes === false && voteNo === true) {

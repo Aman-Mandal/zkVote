@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import VotingModal from "./VotingModal";
 
-const ProposalTitleCard = ({ title }) => {
+const ProposalTitleCard = ({ title, prId }) => {
   const [showVoteModal, setShowVoteModal] = useState(false);
 
   const router = useRouter();
@@ -45,7 +45,7 @@ const ProposalTitleCard = ({ title }) => {
         |
         <div className="flex items-center gap-1 font-semibold text-[#797979]">
           <p>PID</p>
-          <p>{proposalId}</p>
+          <p>{prId}</p>
         </div>
         |
         <div className="flex items-center gap-1 font-semibold text-[#797979]">
@@ -56,7 +56,7 @@ const ProposalTitleCard = ({ title }) => {
 
       {showVoteModal && (
         <VotingModal
-          proposalId={proposalId}
+          proposalId={prId}
           proposalName={title}
           onClose={() => {
             setShowVoteModal(false);
