@@ -21,7 +21,6 @@ const CreateProposal = () => {
     votingOptions: [{ votingOption: "YES" }, { votingOption: "NO" }],
     contractAddress: "",
     contractAbi: [],
-    functionName: "",
     inputParams: [],
     targetAddress: "",
   });
@@ -48,33 +47,23 @@ const CreateProposal = () => {
   }, []);
 
   const createProposal = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.JsonRpcProvider(
+      "https://eth-goerli.g.alchemy.com/v2/rPfyhhDXz6kKnN7XlD_vI0HOuemQf5Tj"
+    );
 
     const signer = provider.getSigner();
 
-    const proposer = await signer.getAddress();
-
     const contract = new ethers.Contract(
-      "0x7dEB4Aa194168E6d8A2c340bBCF9Bd181ce4075c",
+      daoInfo.daoContract,
       GovernorABI,
       signer
     );
 
     const iface = new ethers.utils.Interface(formData.contractAbi);
-    console.log({ iface, ff: formData.functionName, pp: formData.inputParams });
-
     const calldata = iface.encodeFunctionData(
       formData.functionName,
-      formData.inputParams
+      ...formData.inputParams
     );
-
-    const address = await contract.proposalThreshold();
-
-    console.log({
-      address,
-      data: ethers.utils.toUtf8Bytes(calldata),
-      tp: typeof ethers.utils.toUtf8Bytes(calldata),
-    });
 
     const tx = await contract.propose(
       [formData.targetAddress],
@@ -87,40 +76,17 @@ const CreateProposal = () => {
 
     console.log({ res, tx });
 
-    const receipt = await ethersProvider.getTransactionReceipt(
-      res.logs[0].transactionHash
-    );
-
-    const decodedData = ethers.utils.defaultAbiCoder.decode(
-      [
-        "uint",
-        "address",
-        "address[]",
-        "uint[]",
-        "string[]",
-        "bytes[]",
-        "uint",
-        "uint",
-        "string",
-      ],
-      receipt.logs[0].data
-    );
-
-    console.log(decodedData[0].toString());
-
     const data = await fetch(`${SERVER_URL}/proposal`, {
       method: "POST",
       body: JSON.stringify({
         title: formData.title,
         description: formData.description,
         proposedBy: proposer,
-        proposalId: decodedData[0].toString(),
+        proposalId: "proposalId goes here", //!this entry needs to be filled
       }),
     });
 
     const response = await data.json();
-
-    console.log({ response });
   };
 
   const PageDisplay = () => {
@@ -189,7 +155,6 @@ const CreateProposal = () => {
                   <button
                     type="submit"
                     className="bg-[#292929] hover:bg-[#333333] text-sm py-2 px-6 rounded-md"
-                    onClick={createProposal}
                   >
                     Submit
                   </button>

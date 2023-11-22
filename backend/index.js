@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
 const daoRoutes = require("./routes/dao");
+const proposalRoutes = require("./routes/proposal");
 const claim = require("./contracts");
 const cron = require("node-cron");
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(daoRoutes);
+app.use(proposalRoutes);
 
 //RUNS EVERY HOUR
 cron.schedule("0 * * * *", async () => {

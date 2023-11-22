@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import ParameterInput from './ParameterInput';
+import React, { useEffect, useState } from "react";
+import ParameterInput from "./ParameterInput";
 
 const CreateStep2 = ({ formData, setFormData }) => {
   const [mutableFuncs, setMutableFuncs] = useState([]);
@@ -10,9 +10,9 @@ const CreateStep2 = ({ formData, setFormData }) => {
       const parsedData = JSON.parse(formData.contractAbi);
       const funcs = parsedData.filter((fun) => {
         return (
-          fun.stateMutability !== 'view' &&
-          fun.stateMutability !== 'pure' &&
-          fun.type === 'function'
+          fun.stateMutability !== "view" &&
+          fun.stateMutability !== "pure" &&
+          fun.type === "function"
         );
       });
 
@@ -21,19 +21,25 @@ const CreateStep2 = ({ formData, setFormData }) => {
   }, [formData.contractAbi]);
 
   const handleSelectChange = (event) => {
+    setFormData((prevVal) => {
+      return {
+        ...prevVal,
+        functionName: event.target.value,
+      };
+    });
     const selectedFunction = mutableFuncs[event.target.value];
     setSelectedFun(selectedFunction);
   };
 
   return (
-    <div className='min-h-[70vh]'>
-      <div className='flex flex-col mt-8 '>
-        <label className='text-sm  mb-1 text-gray-400'>
+    <div className="min-h-[70vh]">
+      <div className="flex flex-col mt-8 ">
+        <label className="text-sm  mb-1 text-gray-400">
           Contract Address *
         </label>
         <input
-          placeholder='0x0000000000000000000000000000000000'
-          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 '
+          placeholder="0x0000000000000000000000000000000000"
+          className="bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 "
           onChange={(e) => {
             setFormData({
               ...formData,
@@ -41,15 +47,15 @@ const CreateStep2 = ({ formData, setFormData }) => {
             });
           }}
           value={formData?.title}
-          type='text'
+          type="text"
         />
       </div>
 
-      <div className='flex flex-col mt-3 mb-5'>
-        <label className='text-sm  mb-1 text-gray-400'>Contract ABI *</label>
+      <div className="flex flex-col mt-3 mb-5">
+        <label className="text-sm  mb-1 text-gray-400">Contract ABI *</label>
         <textarea
           rows={6}
-          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
+          className="bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2"
           onChange={(e) => {
             setFormData({
               ...formData,
@@ -57,15 +63,15 @@ const CreateStep2 = ({ formData, setFormData }) => {
             });
           }}
           value={formData?.contractAbi}
-          type='text'
+          type="text"
         />
       </div>
 
-      <div className='flex flex-col mt-8 '>
-        <label className='text-sm  mb-1 text-gray-400'>Target Address *</label>
+      <div className="flex flex-col mt-8 ">
+        <label className="text-sm  mb-1 text-gray-400">Target Address *</label>
         <input
-          placeholder='0x0000000000000000000000000000000000'
-          className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 '
+          placeholder="0x0000000000000000000000000000000000"
+          className="bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-[#2e2e2e] text-gray-300  outline-none mb-2 "
           onChange={(e) => {
             setFormData({
               ...formData,
@@ -73,20 +79,19 @@ const CreateStep2 = ({ formData, setFormData }) => {
             });
           }}
           value={formData?.targetAddress}
-          type='text'
+          type="text"
         />
       </div>
 
-      <div className='flex flex-col mt-3 mb-5'>
-        <label className='text-sm  mb-1 text-gray-400'>Select Function *</label>
+      <div className="flex flex-col mt-3 mb-5">
+        <label className="text-sm  mb-1 text-gray-400">Select Function *</label>
         <select
           onChange={handleSelectChange}
-          class='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md  text-[#444444]  outline-none mb-2'>
+          class="bg-[#181818] py-2 px-2 border border-gray-900 rounded-md  text-[#444444]  outline-none mb-2"
+        >
           <option selected>Select function here</option>
           {mutableFuncs.map((fun, index) => (
-            <option
-              key={index}
-              value={index}>
+            <option key={index} value={fun.name}>
               {fun.name}
             </option>
           ))}
@@ -94,12 +99,12 @@ const CreateStep2 = ({ formData, setFormData }) => {
 
         {selectedFun?.inputs.length ? (
           <>
-            <label className='text-sm text-gray-400 mb-1 mt-3'>
+            <label className="text-sm text-gray-400 mb-1 mt-3">
               Input Parameters
             </label>
 
             {selectedFun.inputs?.map((input, index) => (
-              <div className='flex mb-3 items-center'>
+              <div className="flex mb-3 items-center">
                 <ParameterInput
                   setFormData={setFormData}
                   formData={formData}
