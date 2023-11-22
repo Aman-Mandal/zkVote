@@ -25,7 +25,7 @@ const DAOInfo = ({ name, description, socials }) => {
           <p className="text-[#828282] mt-4">{description}</p>
         </div>
         <div className="flex-[0.25] flex flex-col justify-between">
-          <button className="bg-[#f2f2f2] py-3 px-6 w-full text-black font-semibold rounded-md hover:bg-white">
+          <button className="bg-[#f2f2f2] py-3 px-6  text-black font-semibold w-[200px] rounded-md hover:bg-white">
             Join DAO
           </button>
 
