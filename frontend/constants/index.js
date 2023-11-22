@@ -1406,3 +1406,118 @@ export const GovernorABI = [
     type: "function",
   },
 ];
+
+export const VoteOnZkEvmABI = [
+  {
+    inputs: [
+      {
+        internalType: "contract IPolygonZkEVMBridge",
+        name: "_polygonZkEVMBridge",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_proposalAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "polygonZkEVMBridge",
+    outputs: [
+      {
+        internalType: "contract IPolygonZkEVMBridge",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "proposalAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalForID",
+    outputs: [
+      {
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "timepoint",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+    ],
+    name: "registerProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint32",
+        name: "destinationNetwork",
+        type: "uint32",
+      },
+      {
+        internalType: "bool",
+        name: "forceUpdateGlobalExitRoot",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
+      {
+        internalType: "enum VoteOnZkEvm.Options",
+        name: "option",
+        type: "uint8",
+      },
+    ],
+    name: "vote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];

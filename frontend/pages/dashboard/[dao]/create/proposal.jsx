@@ -2,7 +2,7 @@ import CreateStep2 from "@/components/Proposal/CreateStep2";
 import CreateStep3 from "@/components/Proposal/CreateStep3";
 import VerticalStepper from "@/components/DAO/Stepper";
 import CreateStep1 from "@/components/Proposal/CreateStep1";
-import { PROPOSAL_STEPS, SERVER_URL } from "@/constants";
+import { PROPOSAL_STEPS, SERVER_URL, VoteOnZkEvmABI } from "@/constants";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -55,7 +55,7 @@ const CreateProposal = () => {
     const proposer = await signer.getAddress();
 
     const contract = new ethers.Contract(
-      "0x7dEB4Aa194168E6d8A2c340bBCF9Bd181ce4075c",
+      daoInfo.daoContract,
       GovernorABI,
       signer
     );
@@ -85,6 +85,18 @@ const CreateProposal = () => {
 
     const res = await tx.wait();
 
+    const provider2 = new ethers.providers.JsonRpcProvider(
+      "https://rpc.public.zkevm-test.net"
+    );
+
+    const wallet = new ethers.Wallet(process.env.NEXT_PRIVATE_KEY, provider2);
+
+    const contract2 = new ethers.Contract(
+      "0xF56B487a33eA79f189f8Bc246C8EBE28a2bf3B95",
+      VoteOnZkEvmABI,
+      wallet
+    );
+
     console.log({ res, tx });
 
     const receipt = await ethersProvider.getTransactionReceipt(
@@ -106,7 +118,12 @@ const CreateProposal = () => {
       receipt.logs[0].data
     );
 
-    console.log(decodedData[0].toString());
+    console.log("proposalId", decodedData[0].toString());
+
+    await contract2.registerProposal(
+      daoInfo[1].address,
+      decodedData[0].toString()
+    );
 
     const data = await fetch(`${SERVER_URL}/proposal`, {
       method: "POST",
