@@ -1,0 +1,39 @@
+import { ethers } from "hardhat";
+import "dotenv/config";
+import dedent from "dedent";
+
+async function main() {
+  const testnetBridgeAddress = "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
+
+  const OracleConsumerContract = await ethers.getContractFactory("AutoClaim");
+
+  const [deployer] = await ethers.getSigners();
+
+  console.log("Deploying...");
+  const attestor =
+    process.env["MUMBAI_PHALA_ORACLE_ATTESTOR"] || deployer.address; // When deploy for real e2e test, change it to the real attestor wallet.
+  const consumer = await OracleConsumerContract.deploy(
+    attestor,
+    testnetBridgeAddress
+  );
+  await consumer.deployed();
+  const finalMessage = dedent`
+    🎉 Your Consumer Contract has been deployed, check it out here: https://mumbai.polygonscan.com/address/${consumer.address}
+    
+    You also need to set up the consumer contract address in your .env file:
+    
+    MUMBAI_CONSUMER_CONTRACT_ADDRESS=${consumer.address}
+  `;
+  console.log(`\n${finalMessage}\n`);
+
+  console.log("Sending a request...");
+  await consumer.connect(deployer).request();
+  console.log("Done");
+}
+
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

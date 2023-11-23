@@ -1,4 +1,4 @@
-export const SERVER_URL = "http://localhost:8000";
+export const SERVER_URL = "https://governance-crosschain.onrender.com";
 
 export const TimelockContract = "0xD2b6091F1e9Ad39e233d23728BCfe97AF658C787";
 
@@ -6,7 +6,9 @@ export const ERC20Contract = "0xa023AbeC30D11f66eDb4c74e88F74aa1b0dc5ECE";
 
 export const ZKEvmBridge = "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7"; //same on goerli and zkevm
 
-export const GovXWrapper = "0x7dEB4Aa194168E6d8A2c340bBCF9Bd181ce4075c";
+export const GovXWrapper = "0x9A5d0A5aD88C00308C53aA0b692Af33edAe7d895";
+
+export const voteOnZkEvmAddress = "0x611bb13B02D8FD1E94762b976cAC1fb01Ae39111";
 
 export const DAO_STEPS = [
   {

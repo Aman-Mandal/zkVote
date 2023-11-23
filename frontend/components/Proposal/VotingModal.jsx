@@ -4,7 +4,7 @@ import { FaEthereum } from "react-icons/fa";
 import { useAccount } from "wagmi";
 import Backdrop from "../Layout/Backdrop";
 import { ethers } from "ethers";
-import { VoteOnZkEvmABI } from "@/constants";
+import { VoteOnZkEvmABI, voteOnZkEvmAddress } from "@/constants";
 
 const VotingModal = ({ onClose, proposalId, proposalName }) => {
   const { address, isConnected } = useAccount();
@@ -22,7 +22,7 @@ const VotingModal = ({ onClose, proposalId, proposalName }) => {
     const signer = provider.getSigner();
 
     const contract = new ethers.Contract(
-      "0xF56B487a33eA79f189f8Bc246C8EBE28a2bf3B95",
+      voteOnZkEvmAddress,
       VoteOnZkEvmABI,
       signer
     );

@@ -4,7 +4,12 @@ import CreateStep2 from "@/components/Proposal/CreateStep2";
 import CreateStep3 from "@/components/Proposal/CreateStep3";
 import VerticalStepper from "@/components/DAO/Stepper";
 import CreateStep1 from "@/components/Proposal/CreateStep1";
-import { PROPOSAL_STEPS, SERVER_URL, VoteOnZkEvmABI } from "@/constants";
+import {
+  PROPOSAL_STEPS,
+  SERVER_URL,
+  VoteOnZkEvmABI,
+  voteOnZkEvmAddress,
+} from "@/constants";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -102,7 +107,7 @@ const CreateProposal = () => {
     );
 
     const contract2 = new ethers.Contract(
-      "0xF56B487a33eA79f189f8Bc246C8EBE28a2bf3B95",
+      voteOnZkEvmAddress,
       VoteOnZkEvmABI,
       wallet
     );

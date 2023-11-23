@@ -73,7 +73,7 @@ async function main() {
     return;
   }
 
-  for (let i = 0; i < depositsArray.length; i++) {
+  for (let i = 0; i < 1; i++) {
     const currentDeposit = depositsArray[i];
     if (currentDeposit.claim_tx_hash == "") {
       if (currentDeposit.ready_for_claim) {

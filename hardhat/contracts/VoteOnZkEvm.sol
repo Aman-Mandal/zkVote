@@ -11,34 +11,32 @@ contract VoteOnZkEvm {
     // Global Exit Root address
     IPolygonZkEVMBridge public immutable polygonZkEVMBridge;
 
-    // Address of proposal in eth
-    address public proposalAddress;
-
     struct Proposal {
         address token;
         uint timepoint;
+        address proposalAddress;
     }
 
     // mapping of proposal id to address of token used to calculate the vote power
     mapping(uint => Proposal) public proposalForID;
-    mapping(address => bool) public voted;
+    mapping(uint => mapping(address => bool)) public voted;
 
     /**
      * @param _polygonZkEVMBridge Polygon zkevm bridge address
-     * @param _proposalAddress Address of proposal in eth
      */
-    constructor(
-        IPolygonZkEVMBridge _polygonZkEVMBridge,
-        address _proposalAddress
-    ) {
+    constructor(IPolygonZkEVMBridge _polygonZkEVMBridge) {
         polygonZkEVMBridge = _polygonZkEVMBridge;
-        proposalAddress = _proposalAddress;
     }
 
-    function registerProposal(address _token, uint id) public {
+    function registerProposal(
+        address _token,
+        uint id,
+        address _proposalAddress
+    ) public {
         require(proposalForID[id].token == address(0), "already registered");
         proposalForID[id].token = _token;
         proposalForID[id].timepoint = block.number;
+        proposalForID[id].proposalAddress = _proposalAddress;
     }
 
     /**
@@ -52,7 +50,7 @@ contract VoteOnZkEvm {
         uint _id,
         uint8 support
     ) public {
-        require(!voted[msg.sender], "Already voted");
+        require(!voted[_id][msg.sender], "Already voted");
         uint timepoint = proposalForID[_id].timepoint;
         uint power = IVotes(proposalForID[_id].token).getPastVotes(
             msg.sender,
@@ -62,10 +60,10 @@ contract VoteOnZkEvm {
 
         polygonZkEVMBridge.bridgeMessage(
             destinationNetwork,
-            proposalAddress,
+            proposalForID[_id].proposalAddress,
             forceUpdateGlobalExitRoot,
             message
         );
-        voted[msg.sender] = true;
+        voted[_id][msg.sender] = true;
     }
 }
