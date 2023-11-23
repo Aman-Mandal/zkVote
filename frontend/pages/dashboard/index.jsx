@@ -44,7 +44,7 @@ const Dashboard = () => {
 
         <div className='flex flex-wrap gap-8 overflow-y-scroll'>
           {daos.length > 0 &&
-            daos.map((dao) => (
+            daos.reverse().map((dao) => (
               <DAO
                 key={dao._id}
                 id={dao._id}
