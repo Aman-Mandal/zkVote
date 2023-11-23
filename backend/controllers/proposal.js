@@ -5,6 +5,8 @@ exports.createProposal = async (req, res, next) => {
   try {
     const data = req.body;
 
+    console.log("data is", data);
+
     const proposal = new Proposal(data);
     const proposalDetails = await proposal.save();
 
@@ -12,7 +14,7 @@ exports.createProposal = async (req, res, next) => {
 
     const daoInfo = await dao.findOne({ _id: daoId });
 
-    daoInfo.proposals.push(proposalDetails._id);
+    daoInfo.proposals.push(proposalDetails._id.toString());
 
     await daoInfo.save();
 

@@ -17,10 +17,12 @@ app.use(bodyParser.json());
 app.use(daoRoutes);
 app.use(proposalRoutes);
 
-//RUNS EVERY HOUR
-cron.schedule("0 * * * *", async () => {
-  await claim();
-});
+// //RUNS EVERY HOUR
+// cron.schedule("* * * * *", async () => {
+//   console.log("entered here");
+//   await claim();
+//   console.log("called");
+// });
 
 mongoose
   .connect(process.env.MONGODB_URI)

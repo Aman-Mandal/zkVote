@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import VotingModal from "./VotingModal";
 
-const ProposalTitleCard = ({ title, prId }) => {
+const ProposalTitleCard = ({ title, prId, creator, createdAt }) => {
   const [showVoteModal, setShowVoteModal] = useState(false);
 
   const router = useRouter();
@@ -39,18 +39,21 @@ const ProposalTitleCard = ({ title, prId }) => {
           />
 
           <p>
-            by <span className="font-semibold">0x102..3949</span>
+            by{" "}
+            <span className="font-semibold">
+              {creator.substring(0, 7) + "..." + creator.substring(37, 42)}
+            </span>
           </p>
         </div>
         |
         <div className="flex items-center gap-1 font-semibold text-[#797979]">
           <p>PID</p>
-          <p>{prId}</p>
+          <p>{prId.slice(0, 5) + "..." + prId.slice(-10)}</p>
         </div>
         |
         <div className="flex items-center gap-1 font-semibold text-[#797979]">
           <p>Proposed on:</p>
-          <p>Nov 17th, 2023</p>
+          <p>{createdAt ? createdAt : "Unknown"}</p>
         </div>
       </div>
 
