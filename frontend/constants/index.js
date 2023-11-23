@@ -1,5 +1,5 @@
-// export const SERVER_URL = "https://governance-crosschain.onrender.com";
-export const SERVER_URL = "http://localhost:8000";
+export const SERVER_URL = "https://governance-crosschain.onrender.com";
+// export const SERVER_URL = "http://localhost:8000";
 
 export const TimelockContract = "0xD2b6091F1e9Ad39e233d23728BCfe97AF658C787";
 
