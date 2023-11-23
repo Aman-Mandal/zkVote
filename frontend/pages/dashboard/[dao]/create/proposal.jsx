@@ -148,7 +148,7 @@ const CreateProposal = () => {
       await contract2.registerProposal(
         daoInfo.tokenAddresses[1].address,
         decodedData[0].toString(),
-        daoInfo.daoContract
+        "0x9A5d0A5aD88C00308C53aA0b692Af33edAe7d895"
       );
 
       const data = await fetch(`${SERVER_URL}/proposal`, {
