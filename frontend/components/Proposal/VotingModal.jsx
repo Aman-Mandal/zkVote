@@ -1,10 +1,10 @@
-import Image from 'next/image';
-import React, { useState } from 'react';
-import { FaEthereum } from 'react-icons/fa';
-import { useAccount } from 'wagmi';
-import Backdrop from '../Layout/Backdrop';
-import { ethers } from 'ethers';
-import { VoteOnZkEvmABI } from '@/constants';
+import Image from "next/image";
+import React, { useState } from "react";
+import { FaEthereum } from "react-icons/fa";
+import { useAccount } from "wagmi";
+import Backdrop from "../Layout/Backdrop";
+import { ethers } from "ethers";
+import { VoteOnZkEvmABI, voteOnZkEvmAddress } from "@/constants";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,11 +23,11 @@ const VotingModal = ({ onClose, proposalId, proposalName }) => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
-      const contract = new ethers.Contract(
-        '0xF56B487a33eA79f189f8Bc246C8EBE28a2bf3B95',
-        VoteOnZkEvmABI,
-        signer
-      );
+    const contract = new ethers.Contract(
+      voteOnZkEvmAddress,
+      VoteOnZkEvmABI,
+      signer
+    );
 
       console.log({ contract });
       if (voteYes === true && voteNo === false) {

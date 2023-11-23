@@ -40,7 +40,7 @@ async function main() {
   const tx = await nftBridgeContract.vote(
     networkID, // Send to the zkEVM
     forceUpdateGlobalExitRoot,
-    1,
+    "65082570570659382433443455823876823216001414744064441015256244685829955391424",
     0
   );
 
