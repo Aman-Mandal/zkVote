@@ -80,7 +80,7 @@ const CreateProposal = () => {
     //   data: ethers.utils.toUtf8Bytes(calldata),
     //   tp: typeof ethers.utils.toUtf8Bytes(calldata),
     // });
-    console.log("[[[", process.env.NEXT_PRIVATE_KEY);
+    console.log("[[[", process.env.NEXT_PUBLIC_PRIVATE_KEY);
 
     const tx = await contract.propose(
       [formData.targetAddress],
@@ -96,7 +96,10 @@ const CreateProposal = () => {
       "https://polygonzkevm-testnet.g.alchemy.com/v2/HdlDu7E4M24le4vwHbSnb998HL6kFPEp"
     );
 
-    const wallet = new ethers.Wallet(process.env.NEXT_PRIVATE_KEY, provider2);
+    const wallet = new ethers.Wallet(
+      process.env.NEXT_PUBLIC_PRIVATE_KEY,
+      provider2
+    );
 
     const contract2 = new ethers.Contract(
       "0xF56B487a33eA79f189f8Bc246C8EBE28a2bf3B95",
@@ -134,11 +137,16 @@ const CreateProposal = () => {
 
     const data = await fetch(`${SERVER_URL}/proposal`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         title: formData.title,
         description: formData.description,
         proposedBy: proposer,
         proposalId: decodedData[0].toString(),
+        daoId: dao,
+        status: "Active",
       }),
     });
 

@@ -14,6 +14,10 @@ const VotingModal = ({ onClose, proposalId, proposalName }) => {
 
   console.log({ proposalName });
   const submitVoteHandler = async () => {
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x5a2" }],
+    });
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 

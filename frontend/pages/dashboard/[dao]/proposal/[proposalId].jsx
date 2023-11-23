@@ -30,7 +30,9 @@ const Proposal = () => {
       {proposalInfo && (
         <ProposalTitleCard
           title={proposalInfo.name}
+          creator={proposalInfo.proposedBy}
           prId={proposalInfo.proposalId}
+          createdAt={proposalInfo?.createdAt}
         />
       )}
 
