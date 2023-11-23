@@ -1,4 +1,5 @@
-export const SERVER_URL = "https://governance-crosschain.onrender.com";
+// export const SERVER_URL = "https://governance-crosschain.onrender.com";
+export const SERVER_URL = "http://localhost:8000";
 
 export const TimelockContract = "0xD2b6091F1e9Ad39e233d23728BCfe97AF658C787";
 
@@ -1419,11 +1420,6 @@ export const VoteOnZkEvmABI = [
         name: "_polygonZkEVMBridge",
         type: "address",
       },
-      {
-        internalType: "address",
-        name: "_proposalAddress",
-        type: "address",
-      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -1434,19 +1430,6 @@ export const VoteOnZkEvmABI = [
     outputs: [
       {
         internalType: "contract IPolygonZkEVMBridge",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "proposalAddress",
-    outputs: [
-      {
-        internalType: "address",
         name: "",
         type: "address",
       },
@@ -1474,6 +1457,11 @@ export const VoteOnZkEvmABI = [
         name: "timepoint",
         type: "uint256",
       },
+      {
+        internalType: "address",
+        name: "proposalAddress",
+        type: "address",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -1489,6 +1477,11 @@ export const VoteOnZkEvmABI = [
         internalType: "uint256",
         name: "id",
         type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_proposalAddress",
+        type: "address",
       },
     ],
     name: "registerProposal",
@@ -1514,14 +1507,38 @@ export const VoteOnZkEvmABI = [
         type: "uint256",
       },
       {
-        internalType: "enum VoteOnZkEvm.Options",
-        name: "option",
+        internalType: "uint8",
+        name: "support",
         type: "uint8",
       },
     ],
     name: "vote",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "voted",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];

@@ -84,7 +84,7 @@ const CreateProposal = () => {
       });
 
       const calldata = iface.encodeFunctionData(
-        formData.functionName,
+        formData.functionName.trim(),
         formData.inputParams
       );
 
@@ -95,7 +95,7 @@ const CreateProposal = () => {
       //   data: ethers.utils.toUtf8Bytes(calldata),
       //   tp: typeof ethers.utils.toUtf8Bytes(calldata),
       // });
-      console.log("[[[", process.env.NEXT_PUBLIC_PRIVATE_KEY);
+      // console.log("[[[", process.env.NEXT_PUBLIC_PRIVATE_KEY);
 
       const tx = await contract.propose(
         [formData.targetAddress],
