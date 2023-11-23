@@ -23,7 +23,7 @@ const Header = () => {
 
           <button
             onClick={() => {
-              router.push('/create');
+              router.push('/dashboard');
             }}
             className='bg-[#1e1e1e] flex items-center justify-center gap-2 py-3 w-[230px] mt-10 text-white rounded-xl text-2xl'>
             Launch App{' '}

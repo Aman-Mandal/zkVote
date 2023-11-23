@@ -23,6 +23,7 @@
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "react-metamask-avatar": "^1.6.0",
+    "react-toastify": "^9.1.3",
     "viem": "^1.19.0",
     "wagmi": "^1.4.6"
   },

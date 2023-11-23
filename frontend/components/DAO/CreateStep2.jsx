@@ -33,7 +33,7 @@ const CreateStep2 = ({ formData, setFormData }) => {
           />
         </div>
 
-        <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
+        {/* <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
           <div className='flex items-center gap-2 text-gray-400 w-[150px] text-sm py-2 border-r-[0.5px] border-gray-700'>
             <Image
               src={'/assets/polygon.svg'}
@@ -56,7 +56,7 @@ const CreateStep2 = ({ formData, setFormData }) => {
             type='text'
             required
           />
-        </div>
+        </div> */}
         <div className='flex items-center bg-[#181818] py-1 rounded-md px-3'>
           <div className='flex items-center gap-2 text-gray-400 w-[150px] text-sm py-2 border-r-[0.5px] border-gray-700'>
             <Image
@@ -102,7 +102,7 @@ const CreateStep2 = ({ formData, setFormData }) => {
 
       <div className='flex flex-col mt-6'>
         <label className='text-sm  mb-1 text-gray-400'>
-          Governor Address (optional){' '}
+          Governor Address *
         </label>
         <input
           className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
@@ -125,7 +125,7 @@ const CreateStep2 = ({ formData, setFormData }) => {
       <div className='flex flex-col mt-6'>
         <label className='text-sm  mb-1 text-gray-400'>Threshold *</label>
         <input
-          placeholder='20%'
+          placeholder='20'
           className='bg-[#181818] py-2 px-2 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300  outline-none mb-2'
           onChange={(e) => {
             setFormData({
