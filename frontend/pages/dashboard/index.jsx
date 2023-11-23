@@ -48,9 +48,7 @@ const Dashboard = () => {
               <DAO
                 key={dao._id}
                 id={dao._id}
-                logo={'/assets/pic.svg'}
                 name={dao.name}
-                members={'406K'}
               />
             ))}
         </div>
